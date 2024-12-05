@@ -1,0 +1,1 @@
+ALTER TABLE `produtos_avulsos` CHANGE `status` `status` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;

@@ -1,0 +1,1 @@
+ALTER TABLE `usuarios` ADD `STATUS` VARCHAR(100) NOT NULL AFTER `senha`;

@@ -1,0 +1,1 @@
+CREATE SCHEMA `lista_compras_mercado` DEFAULT CHARACTER SET utf8 ;

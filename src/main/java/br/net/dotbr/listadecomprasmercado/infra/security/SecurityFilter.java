@@ -6,6 +6,7 @@ import br.net.dotbr.listadecomprasmercado.domain.usuario.UsuarioRepository;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,12 +94,23 @@ public class SecurityFilter extends OncePerRequestFilter {
 
 
     private String recuperarToken(HttpServletRequest request) {
+        // Primeiro, verifica se o token está no header "Authorization"
         var authorizationHeader = request.getHeader("Authorization");
-        if (authorizationHeader != null) {
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             return authorizationHeader.replace("Bearer ", "");
         }
 
-        return null;
+        // Se não estiver no header, busca nos cookies
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if ("token".equals(cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
+        }
+
+        return null; // Nenhum token encontrado
     }
+
 
 }

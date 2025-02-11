@@ -4,8 +4,9 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 public record DadosCadastroUsuario(
-        @NotBlank(message = "Email não pode ser nulo ou vazio")
-        @Email(message = "Email inválido")
+        @NotBlank(message = "ER_0000000004") // CodigoErroNegocio.EMAIL_VAZIO_INVALIDO
+        @Email(message = "ER_0000000002") // CodigoErroNegocio.EMAIL_INVALIDO
         String email,
-                                   String senha) {
+        @NotBlank(message = "ER_0000000003") // CodigoErroNegocio.SENHA_VAZIA_INVALIDO
+        String senha) {
 }

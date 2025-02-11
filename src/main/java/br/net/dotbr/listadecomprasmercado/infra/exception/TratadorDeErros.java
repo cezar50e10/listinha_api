@@ -42,8 +42,12 @@ public class TratadorDeErros {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity tratarErro400(MethodArgumentNotValidException ex) {
-        var erros = ex.getFieldErrors();
-        return ResponseEntity.badRequest().body(erros.stream().map(DadosErroValidacao::new).toList());
+        var mensagemErroZero = ex.getFieldErrors().get(0).getDefaultMessage();
+        CodigoErroNegocio erroRecord = CodigoErroNegocio.fromMessage(mensagemErroZero);
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErroDeNegocio(erroRecord, HttpStatus.BAD_REQUEST));
+//        return ResponseEntity.badRequest().body(erros.stream().map(DadosErroValidacao::new).toList());
     }
 
     @ExceptionHandler(Exception.class)

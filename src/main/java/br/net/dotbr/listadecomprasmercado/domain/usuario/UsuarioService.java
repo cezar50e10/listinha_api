@@ -7,6 +7,8 @@ import br.net.dotbr.listadecomprasmercado.infra.security.TokenService;
 import br.net.dotbr.listadecomprasmercado.infra.session.SessionService;
 import br.net.dotbr.listadecomprasmercado.infra.sucesso.CodigoSucessoOperacao;
 import br.net.dotbr.listadecomprasmercado.infra.sucesso.SucessoOpercao;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -71,7 +73,7 @@ public class UsuarioService {
     }*/
 
 
-    public ResponseEntity<?> efetuarLogin(DadosAutenticacao dados) {
+    public ResponseEntity<?> efetuarLogin(DadosAutenticacao dados, HttpServletResponse response) {
         var usuarioLogin = new Usuario(dados);
         var usuario = repository.findByEmail(usuarioLogin.getEmail());
 
@@ -81,17 +83,19 @@ public class UsuarioService {
 
                 // Criando um cookie seguro para armazenar o token
                 ResponseCookie cookie = ResponseCookie.from("token", tokenJWT)
-                        .httpOnly(true) // Protege contra XSS
-                        //.secure(true) // Apenas HTTPS
-                        .sameSite("Strict") // Protege contra CSRF
-                        .path("/") // Disponível para toda a aplicação
-                        .maxAge(Duration.ofHours(2)) // Expira em 2 horas
+                        .httpOnly(true)  // Protege contra XSS
+                        //.secure(false)  // TRUE apenas se usar HTTPS
+                        .sameSite("Strict")  // Protege contra CSRF
+                        .path("/")  // Disponível para toda a aplicação
+                        .maxAge(Duration.ofHours(2))  // Expira em 2 horas
                         .build();
 
                 sessionService.salvarNaSessao("usuarioLogado", usuario);
 
+                // Adicionando o cookie à resposta
+                response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+
                 return ResponseEntity.ok()
-                        .header(HttpHeaders.SET_COOKIE, cookie.toString()) // Adiciona o cookie na resposta
                         .body(new SucessoOpercao(CodigoSucessoOperacao.LOGIN_EFETUADO, HttpStatus.OK, null));
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -120,5 +124,14 @@ public class UsuarioService {
         ).toList();
 
         return ResponseEntity.ok(listaUsuario);
+    }
+
+    public ResponseEntity verificarSessao(HttpServletRequest request) {
+        String token = tokenService.recuperarTokenDoCookie(request);
+
+        tokenService.getSubject(token);
+
+        return ResponseEntity.ok()
+                .body(new SucessoOpercao(CodigoSucessoOperacao.USUARIO_LOGADO, HttpStatus.OK, null));
     }
 }

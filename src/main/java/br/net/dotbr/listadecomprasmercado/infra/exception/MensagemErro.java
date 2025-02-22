@@ -6,7 +6,8 @@ public enum MensagemErro {
     EMAIL_INVALIDO("Email Informado Invalido"),
     SENHA_VAZIA_INVALIDO("Senha Não Pode Ser Vazia"),
     EMAIL_VAZIO_INVALIDO("Email Não Pode Ser Vazio"),
-    EMAIL_JA_CADASTRADO("Email Já Cadastrado")
+    EMAIL_JA_CADASTRADO("Email Já Cadastrado"),
+    TOKEN_JWT_INVALIDO_EXPIRADO("Sessão Expirada Faça Login Novamente!")
     ;
 
 

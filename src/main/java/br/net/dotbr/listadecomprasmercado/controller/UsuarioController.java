@@ -5,6 +5,8 @@ import br.net.dotbr.listadecomprasmercado.domain.usuario.DadosCadastroUsuario;
 import br.net.dotbr.listadecomprasmercado.domain.usuario.DadosPesquisaUsuario;
 import br.net.dotbr.listadecomprasmercado.domain.usuario.UsuarioService;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +31,8 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity efetuarLogin(@RequestBody @Valid DadosAutenticacao dados) {
-        return usuarioService.efetuarLogin(dados);
+    public ResponseEntity<?> efetuarLogin(@RequestBody @Valid DadosAutenticacao dados, HttpServletResponse response) {
+        return usuarioService.efetuarLogin(dados, response);
     }
 
 
@@ -43,4 +45,11 @@ public class UsuarioController {
     public ResponseEntity pesquisarUsuario(@RequestBody @Valid DadosPesquisaUsuario dados) {
         return  usuarioService.pesquisarUsuario(dados);
     }
+
+    @PostMapping("/verificar-sessao")
+    public ResponseEntity verificarSessao(HttpServletRequest request) {
+        return  usuarioService.verificarSessao(request);
+    }
+
+
 }

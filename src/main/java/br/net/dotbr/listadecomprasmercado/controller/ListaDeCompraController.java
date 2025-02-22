@@ -72,4 +72,11 @@ public class ListaDeCompraController {
     public ResponseEntity removeParticipanteLista(@RequestBody @Valid DadosRemoveParticipanteListaDeCompra dados){
         return listaDeCompraService.removeParticipanteLista(dados);
     }
+
+    @PostMapping("/listar_por_usuario_logado")
+    @Transactional
+    public ResponseEntity listarListadDeCompraUsuarioLogadoLista(){
+        return listaDeCompraService.listarListadDeCompraUsuarioLogadoLista();
+    }
+
 }

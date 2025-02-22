@@ -3,7 +3,8 @@ package br.net.dotbr.listadecomprasmercado.infra.sucesso;
 public enum MensagemSucesso {
     MENSAGEM_DE_SUCESSO_NAO_ENCONTRADA("Mensagem de Sucesso Não Encontrada"),
     USUARIO_CADASTRADO("Usuario Casdastrado com sucesso"),
-    LOGIN_EFETUADO("Login Efetuado")
+    LOGIN_EFETUADO("Login Efetuado"),
+    USUARIO_LOGADO("Usuário está logado")
     ;
 
 

@@ -5,8 +5,8 @@ import br.net.dotbr.listadecomprasmercado.infra.exception.CodigoErroNegocio;
 public enum CodigoSucessoOperacao {
     MENSAGEM_DE_SUCESSO_NAO_ENCONTRADA("SU_0000000000"),
     USUARIO_CADASTRADO("SU_0000000001"),
-    LOGIN_EFETUADO("SU_0000000002")
-    ;
+    LOGIN_EFETUADO("SU_0000000002"),
+    USUARIO_LOGADO("SU_0000000003");
 
     private final String codigo;
 

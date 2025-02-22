@@ -415,4 +415,21 @@ public class ListaDeCompraService {
 
         return  ResponseEntity.ok("Participante removido da lista");
     }
+
+    public ResponseEntity listarListadDeCompraUsuarioLogadoLista() {
+
+        Usuario usuarioSessao = (Usuario) sessionService.recuperarDaSessao("usuarioLogado");
+
+
+        List<DadosRetornoListaDeCompra>  listas =
+                listaDeCompraRepository.findByParticipantesUsuarioId(usuarioSessao.getId()).stream()
+                        .map(l -> new DadosRetornoListaDeCompra(
+                                l.getId(),
+                                l.getNome(),
+                                l.getDescricao(),
+                                l.getStatus()))
+                        .toList();
+
+        return  ResponseEntity.ok(listas);
+    }
 }

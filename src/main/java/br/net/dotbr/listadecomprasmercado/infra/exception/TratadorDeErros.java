@@ -37,7 +37,9 @@ public class TratadorDeErros {
 
     @ExceptionHandler(JWTVerificationException.class)
     public ResponseEntity tratarTokenInvalido(JWTVerificationException ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro: " +ex.getLocalizedMessage());
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(new ErroDeNegocio(CodigoErroNegocio.TOKEN_JWT_INVALIDO_EXPIRADO, HttpStatus.UNAUTHORIZED));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
